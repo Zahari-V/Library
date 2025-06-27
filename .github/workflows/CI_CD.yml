@@ -24,6 +24,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm install
+    - name: Install playwright dependecies
+      run: npm install -D @playwright/test && npx playwright install
     - name: Run back-end
       run: npm run server &
     - name: Run front-end
