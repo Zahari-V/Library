@@ -1,0 +1,44 @@
+name: CI/CD Library App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ "18.x" ]
+
+    steps:
+    - name: Chekout repository
+      uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm install
+    - name: Run back-end
+      run: npm run server &
+    - name: Run front-end
+      run: npm run start &
+    - name: Run tests
+      run: npm run test
+
+  # deploy:
+  #   name: Deploy to production (Render)
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Deploy to production (Render)
+  #       uses: JorgeLNJunior/render-deploy@v1.4.5
+  #       with:
+  #         service_id: ${{ secrets.RENDER_SERVICE_ID }}
+  #         api_key: ${{ secrets.RENDER_API_KEY }}
