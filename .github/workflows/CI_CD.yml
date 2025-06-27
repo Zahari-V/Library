@@ -26,10 +26,8 @@ jobs:
       run: npm install
     - name: Install playwright dependecies
       run: npm install -D @playwright/test && npx playwright install
-    - name: Run back-end
-      run: npm run server &
-    - name: Run front-end
-      run: npm run start &
+    - name: Run back-end and front-end
+      run: (npm run server &) && (npm run start &)
     - name: Run tests
       run: npm run test
 
